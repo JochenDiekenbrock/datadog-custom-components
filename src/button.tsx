@@ -1,19 +1,30 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
-export const Button = ({ id }: { id: string }): any => {
+export const Button = ({
+  id,
+  onclick
+}: {
+  id: string;
+  onclick?: (count: number) => unknown;
+}): any => {
   const button = useRef<HTMLButtonElement>(null);
+  const [count, setCount] = useState(0);
 
   return (
-    <button
-      id={id}
-      ref={button}
-      onClick={() => {
-        if (button?.current) {
-          button.current.innerText = `clicked on ${id}`;
-        }
-      }}
-    >
-      Button {id}
-    </button>
+    <div>
+      <button
+        id={id}
+        ref={button}
+        onClick={() => {
+          setCount(count + 1);
+          if (onclick) {
+            onclick(count + 1);
+          }
+        }}
+      >
+        Button {id}
+      </button>
+      Number of clicks: {count}
+    </div>
   );
 };
